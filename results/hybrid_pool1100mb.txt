@@ -1,0 +1,31 @@
+
+=== memory+disk B+ tree ===
+records                10000000
+page size              4096 bytes
+leaf capacity          56 records
+internal order         341 children (340 keys)
+file I/O               O_DIRECT (OS page cache bypassed)
+buffer pool            281600 frames = 1100.0 MiB
+tree height            4 levels
+nodes                  256464 leaf + 1029 internal
+avg leaf fill          69.6%
+avg internal fan-out   250.2
+memory (structure)     1106.4 MiB
+memory (process grew)  1014.3 MiB
+disk usage             1005.8 MiB
+insert (incl. flush)        10.92 s      10000000 ops       1.092 us/op        915547 ops/s
+                       reads 0 (0.000/op)  writes 257494 (0.026/op)
+                       pool hit ratio 100.00%  evictions 0
+                       of which final flush + fsync 4.46 s
+search (hit)                 0.39 s       1000000 ops       0.389 us/op       2570040 ops/s
+                       reads 0 (0.000/op)  writes 0 (0.000/op)
+                       pool hit ratio 100.00%  evictions 0
+search (miss)                0.04 s        100000 ops       0.356 us/op       2812649 ops/s
+                       reads 0 (0.000/op)  writes 0 (0.000/op)
+                       pool hit ratio 100.00%  evictions 0
+range scan (100 rec)         0.01 s         10000 ops       0.994 us/op       1005647 ops/s
+                       reads 0 (0.000/op)  writes 0 (0.000/op)
+                       pool hit ratio 100.00%  evictions 0
+full scan                    0.07 s      10000000 ops       0.007 us/op     148055143 ops/s
+                       reads 0 (0.000/op)  writes 0 (0.000/op)
+                       pool hit ratio 100.00%  evictions 0

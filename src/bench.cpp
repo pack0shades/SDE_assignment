@@ -170,6 +170,7 @@ Result run(const Opts& o, bool persistent, const std::function<std::unique_ptr<P
   r.process_bytes = process_memory() - std::min(process_memory(), mem_before);
   r.structure_bytes = pager->memory_bytes();
   // Making the tree durable (write-back of dirty pages + fsync) counts as insert time.
+  // The queries that follow run against the tree as the build left it (warm cache).
   double t0 = now();
   timed(*pager, r.insert, [&] { tree->flush(); });
   r.flush_secs = now() - t0;
@@ -177,14 +178,6 @@ Result run(const Opts& o, bool persistent, const std::function<std::unique_ptr<P
   r.meta = tree->meta();
   r.file_bytes = pager->file_bytes();
 
-  // ---- reopen from disk: proves persistence and starts the queries with a cold cache ---
-  if (persistent) {
-    tree.reset();
-    pager.reset();
-    pager = make(false);
-    tree = std::make_unique<BPlusTree<Pager>>(*pager);
-    if (tree->size() != r.n || tree->height() != r.meta.height) die("tree did not survive a reopen");
-  }
 
   // ---- point lookups of existing keys --------------------------------------------------
   uint8_t val[kValSize];
@@ -228,6 +221,18 @@ Result run(const Opts& o, bool persistent, const std::function<std::unique_ptr<P
   r.full.ops = count;
   if (!ordered || count != r.n) die("full scan is out of order or incomplete");
   if (sum == 0) die("payloads are empty");
+
+  // ---- persistence check (not timed): close, reopen from the file, look records up -----
+  if (persistent) {
+    tree.reset();
+    pager.reset();
+    pager = make(false);
+    tree = std::make_unique<BPlusTree<Pager>>(*pager);
+    if (tree->size() != r.n || tree->height() != r.meta.height) die("tree did not survive a reopen");
+    for (size_t i = 0; i < std::min<size_t>(samples.size(), 1000); ++i)
+      if (!tree->search(samples[i].key, val) || prefix_of(val) != samples[i].val_prefix)
+        die("record lost across a reopen");
+  }
 
   return r;
 }

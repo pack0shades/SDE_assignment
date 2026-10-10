@@ -1,0 +1,18 @@
+
+=== memory-only B+ tree ===
+records                1000000
+page size              4096 bytes
+leaf capacity          56 records
+internal order         341 children (340 keys)
+tree height            3 levels
+nodes                  25740 leaf + 129 internal
+avg leaf fill          69.4%
+avg internal fan-out   200.5
+memory (structure)     102.0 MiB
+memory (process grew)  101.6 MiB
+disk usage             0.0 MiB
+insert (incl. flush)         0.34 s       1000000 ops       0.338 us/op       2959588 ops/s
+search (hit)                 0.28 s       1000000 ops       0.277 us/op       3614757 ops/s
+search (miss)                0.02 s        100000 ops       0.204 us/op       4892577 ops/s
+range scan (100 rec)         0.01 s         10000 ops       0.824 us/op       1213189 ops/s
+full scan                    0.01 s       1000000 ops       0.007 us/op     135938365 ops/s

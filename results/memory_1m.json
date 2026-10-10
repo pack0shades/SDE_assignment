@@ -1,0 +1,12 @@
+{
+  "mode": "mem", "records": 1000000, "page_size": 4096, "leaf_capacity": 56,
+  "internal_order": 341, "direct_io": false, "pool_frames": 0,
+  "height": 3, "leaf_pages": 25740, "internal_pages": 129,
+  "structure_bytes": 106955776, "process_bytes": 106524672, "file_bytes": 0, "flush_secs": 0.0000,
+  "insert": {"secs": 0.3379, "ops": 1000000, "us_per_op": 0.3379, "page_reads": 0, "page_writes": 0, "cache_hits": 0, "cache_misses": 0, "evictions": 0},
+  "search_hit": {"secs": 0.2766, "ops": 1000000, "us_per_op": 0.2766, "page_reads": 0, "page_writes": 0, "cache_hits": 0, "cache_misses": 0, "evictions": 0},
+  "search_miss": {"secs": 0.0204, "ops": 100000, "us_per_op": 0.2044, "page_reads": 0, "page_writes": 0, "cache_hits": 0, "cache_misses": 0, "evictions": 0},
+  "range_scan": {"secs": 0.0082, "ops": 10000, "us_per_op": 0.8243, "page_reads": 0, "page_writes": 0, "cache_hits": 0, "cache_misses": 0, "evictions": 0},
+  "full_scan": {"secs": 0.0074, "ops": 1000000, "us_per_op": 0.0074, "page_reads": 0, "page_writes": 0, "cache_hits": 0, "cache_misses": 0, "evictions": 0},
+  "range_records": 999958
+}
